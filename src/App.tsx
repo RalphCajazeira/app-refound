@@ -1,3 +1,3 @@
 export function App() {
-  return <h1 className="text-3xl">Página App</h1>;
+  return <h1 className="text-green-200 font-bold">Página App</h1>;
 }
