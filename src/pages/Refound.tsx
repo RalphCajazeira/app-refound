@@ -1,4 +1,7 @@
+import { CATEGORIES, CATEGORIES_KEYS } from "../utils/categories";
+
 import { Input } from "../components/Input";
+import { Select } from "../components/Select";
 
 export function Refound() {
   return (
@@ -13,6 +16,7 @@ export function Refound() {
       </header>
 
       <Input required legend="Nome da solicitação" />
+      <Select required legend="Categoria" />
     </form>
   );
 }
