@@ -1,6 +1,6 @@
 import uploadSvg from "../assets/upload.svg";
 
-type Props = {
+type Props = React.ComponentProps<"input"> & {
   filename?: string | null;
 };
 
