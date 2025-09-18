@@ -6,6 +6,7 @@ import { Input } from "../components/Input";
 import { Select } from "../components/Select";
 import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
+import { useNavigate } from "react-router";
 
 export function Refound() {
   const [name, setName] = useState("");
@@ -14,10 +15,13 @@ export function Refound() {
   const [isLoading, setIsLoading] = useState(false);
   const [filename, setFilename] = useState<File | null>(null);
 
+  const navigate = useNavigate();
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     console.log(name, amount, category, filename);
+    navigate("/confirm", { state: { fromSubmit: true } });
   }
 
   return (
