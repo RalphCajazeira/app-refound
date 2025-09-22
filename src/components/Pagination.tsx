@@ -12,7 +12,7 @@ type Props = {
 
 export function Pagination({ current, total, onNext, onPrevious }: Props) {
   return (
-    <div className="flex flex-1 items-center justify-center gap-2 mt-3">
+    <div className="flex flex-1 items-center justify-center gap-2">
       <Button variant="iconSmall" onClick={onPrevious} disabled={current === 1}>
         <img src={leftSvg} alt="Ícone de Voltar" />
       </Button>
