@@ -7,7 +7,7 @@ import { ManagerRoutes } from "./ManagerRoutes";
 export function Routes() {
   return (
     <BrowserRouter>
-      <ManagerRoutes />
+      <EmployeeRoutes />
     </BrowserRouter>
   );
 }
