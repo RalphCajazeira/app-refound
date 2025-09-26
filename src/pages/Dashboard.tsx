@@ -29,12 +29,14 @@ export function Dashboard() {
       setRefunds(
         response.data.refunds.map((refund) => ({
           id: refund.id,
-          name: refund.name,
-          category: refund.category,
-          value: formatCurrency(refund.amount),
+          name: refund.user.name,
+          description: refund.name,
+          amount: formatCurrency(refund.amount),
           categoryImg: CATEGORIES[refund.category].icon,
         }))
       );
+
+      setTotalOfPage(response.data.pagination.totalPages);
     } catch (error) {
       console.log(error);
 
