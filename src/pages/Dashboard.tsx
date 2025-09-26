@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+
+import { api } from "../services/api";
 
 import searchSvg from "../assets/search.svg";
 import { CATEGORIES } from "../utils/categories";
@@ -9,23 +12,38 @@ import { Button } from "../components/Button";
 import { Pagination } from "../components/Pagination";
 import { RefoundItem, type RefoundItemProps } from "../components/RefoundItem";
 
-const REFOUND_EXAMPLE = {
-  id: "123",
-  name: "Ralph",
-  category: "Transporte",
-  amount: formatCurrency(12.5),
-  categoryImg: CATEGORIES["transport"].icon,
-};
+const PER_PAGE = 5;
 
 export function Dashboard() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(1);
-  const [totalOfPage, setTotalOfPage] = useState(10);
-  const [refunds, setRefunds] = useState<RefoundItemProps[]>([REFOUND_EXAMPLE]);
+  const [totalOfPage, setTotalOfPage] = useState(0);
+  const [refunds, setRefunds] = useState<RefoundItemProps[]>([]);
 
-  function fetchRefunds(e: React.FormEvent) {
-    e.preventDefault();
-    console.log(name);
+  async function fetchRefunds() {
+    try {
+      const response = await api.get<RefundsPaginationAPIResponse>(
+        `/refunds?name=${name.trimEnd()}&perPage=${PER_PAGE}`
+      );
+
+      setRefunds(
+        response.data.refunds.map((refund) => ({
+          id: refund.id,
+          name: refund.name,
+          category: refund.category,
+          value: formatCurrency(refund.amount),
+          categoryImg: CATEGORIES[refund.category].icon,
+        }))
+      );
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof AxiosError) {
+        return alert(error.response?.data.message);
+      }
+
+      alert("Nao foi possível buscar as solicitações");
+    }
   }
 
   function handPagination(action: "next" | "previous") {
@@ -41,6 +59,10 @@ export function Dashboard() {
       return prevPage;
     });
   }
+
+  useEffect(() => {
+    fetchRefunds();
+  });
 
   return (
     <div className="bg-gray-500 rounded-xl p-10 md:min-w-[768px]">
